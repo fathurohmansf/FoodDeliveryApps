@@ -226,7 +226,7 @@ class _CartPageState extends State<CartPage> {
                                       // Hapus semua item dari keranjang
                                       Provider.of<CartModel>(context,
                                               listen: false)
-                                          .clearCart();
+                                          .ongoingDelivery();
                                       // Tutup dialog
                                       Navigator.pop(context);
                                       // Navigasi ke halaman transaksi berhasil

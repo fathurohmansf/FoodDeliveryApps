@@ -71,10 +71,12 @@ class CartModel extends ChangeNotifier {
   ];
 
   // list of cart items with quantity
-  List<List<dynamic>> _cartItems = [];
+  final List<List<dynamic>> _cartItems = [];
+  //final List<List<String>> _orderHistory = [];
+  final List<List<dynamic>> _orderHistory = [];
 
   get cartItems => _cartItems;
-
+  List<List<dynamic>> get orderHistory => _orderHistory;
   get shopItems => _shopItems;
 
   // add item to cart
@@ -94,6 +96,10 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // //
+  // void adhistoryCart(int index) {
+  //   final
+  // }
   // remove item from cart
   void removeItemFromCart(int index) {
     _cartItems[index][5]--; // Decrease the quantity
@@ -129,5 +135,20 @@ class CartModel extends ChangeNotifier {
       }
     }
     return -1; // Return -1 if not found
+  }
+
+//OngoingDelivery
+  void ongoingDelivery() {
+    _orderHistory.addAll(List.from(_cartItems));
+    print('Recorded Orders: $_orderHistory'); // Add this line for debugging
+    clearCart();
+    notifyListeners();
+  }
+
+  // Untuk Clean di OngoingDelivery
+  void clearOngoingDelivery() {
+    _orderHistory.clear();
+    //_cartItems.clear();
+    notifyListeners();
   }
 }

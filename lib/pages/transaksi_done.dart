@@ -42,7 +42,7 @@ class TransaksiBerhasil extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        'Rp. ${item[1]} x ${item[3]}',
+                        'Rp. ${item[1]} x ${item[3]}', //  x ${item[3]}
                         style: const TextStyle(color: Colors.white),
                       ),
                     );
@@ -50,7 +50,6 @@ class TransaksiBerhasil extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

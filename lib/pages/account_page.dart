@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 //import 'package:food_delivery_apps/components/order_history_page.dart';
 import 'package:food_delivery_apps/model/user_model.dart';
 import 'package:food_delivery_apps/pages/home_page.dart';
+import 'package:food_delivery_apps/pages/transaksi_done.dart';
 import 'package:food_delivery_apps/theme_manager/day_night.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:food_delivery_apps/pages/delivery_page.dart';
+import 'package:food_delivery_apps/model/cart_model.dart';
 
 class ImageProviderModel extends ChangeNotifier {
   XFile? _image;
@@ -60,17 +63,6 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
-        // onPopInvoked: (bool didPop) {
-        //   if (didPop) {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => const HomePage(
-        //             uid: '',
-        //           ),
-        //         ));
-        //   }
-        // },
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -93,18 +85,6 @@ class _AccountPageState extends State<AccountPage> {
                 ),
                 onPressed: _toggleDarkMode,
               ),
-              // IconButton(
-              //   icon: const Icon(Icons.history),
-              //   onPressed: () {
-              //     // Navigate to the order history screen
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const OrderHistoryPage(),
-              //       ),
-              //     );
-              //   },
-              // ),
               IconButton(
                 icon: const Icon(Icons.exit_to_app),
                 onPressed: _handleLogout,
@@ -131,6 +111,8 @@ class _AccountPageState extends State<AccountPage> {
                   } else {
                     return SingleChildScrollView(
                       child: Column(
+                        //mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             height: 200,
@@ -172,6 +154,7 @@ class _AccountPageState extends State<AccountPage> {
                               ),
                             ),
                           ),
+                          //Card untuk email dan Location
                           Card(
                             margin: const EdgeInsets.all(16),
                             elevation: 8,
@@ -207,6 +190,225 @@ class _AccountPageState extends State<AccountPage> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '   Transaksi',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Consumer<CartModel>(
+                                builder: (context, value, child) {
+                                  if (value.orderHistory.isEmpty) {
+                                    // If there is no order history data, render an empty Card
+                                    return Card(
+                                      margin: EdgeInsets.all(20),
+                                      elevation: 8,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: Center(
+                                          child: Text(
+                                            'Belum ada pesanan',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return Card(
+                                      margin: EdgeInsets.all(20),
+                                      elevation: 8,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                'Pesanan Sedang Dikirim',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/design/images/delivery-1.png',
+                                                  width: 70,
+                                                  height: 100,
+                                                ),
+                                                SizedBox(
+                                                  width: 250,
+                                                  child:
+                                                      LinearProgressIndicator(
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(Colors.blue),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: value.orderHistory
+                                                  .map<Widget>((item) {
+                                                return ListTile(
+                                                  title: Text(
+                                                    '${item[0]} x${item[5]}',
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  // subtitle: Text(
+                                                  //   'Rp. ${item[1]}',
+                                                  //   style: const TextStyle(),
+                                                  // ),
+                                                );
+                                              }).toList(),
+                                            ),
+                                            Center(
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  //untuk hapus ongoingdelivery yg ada di list
+                                                  Provider.of<CartModel>(
+                                                          context,
+                                                          listen: false)
+                                                      .clearOngoingDelivery();
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TransaksiBerhasil(),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  "Pesanan Diterima",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Colors.blue,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Text(
+                          //       '   Transaksi',
+                          //       style: TextStyle(
+                          //           fontSize: 20, fontWeight: FontWeight.bold),
+                          //     ),
+                          //     //SizedBox(height: 2),
+                          //     Card(
+                          //       margin: EdgeInsets.all(20),
+                          //       elevation: 8,
+                          //       child: Padding(
+                          //         padding: EdgeInsets.all(5.0),
+                          //         child: Column(
+                          //           crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //           children: [
+                          //             Row(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.spaceBetween,
+                          //               children: [
+                          //                 Image.asset(
+                          //                   'assets/design/images/delivery-1.png', // Ganti dengan path gambar yang sesuai
+                          //                   width: 50,
+                          //                   height: 100,
+                          //                 ),
+                          //                 SizedBox(
+                          //                   width: 250,
+                          //                   child: LinearProgressIndicator(
+                          //                     backgroundColor: Colors.grey,
+                          //                     valueColor:
+                          //                         AlwaysStoppedAnimation<Color>(
+                          //                             Colors.blue),
+                          //                   ),
+                          //                 ),
+                          //                 //SizedBox(height: 6),
+                          //               ],
+                          //             ),
+                          //             Consumer<CartModel>(
+                          //               builder: (context, value, child) {
+                          //                 return Column(
+                          //                   children: value.orderHistory
+                          //                       .map<Widget>((item) {
+                          //                     return ListTile(
+                          //                       title: Text(
+                          //                         '${value.orderHistory[index][0]} x${value.orderHistory[index][5]}',
+                          //                         //item[0],
+                          //                         style: const TextStyle(
+                          //                           fontWeight: FontWeight.bold,
+                          //                         ),
+                          //                       ),
+                          //                       subtitle: Text(
+                          //                         'Rp. ${item[1]}', //  x ${item[3]}
+                          //                         style: const TextStyle(),
+                          //                       ),
+                          //                     );
+                          //                   }).toList(),
+                          //                 );
+                          //               },
+                          //             ),
+                          //             Center(
+                          //               child: ElevatedButton(
+                          //                 onPressed: () {
+                          //                   //untuk hapus ongoingdelivery yg ada di list
+                          //                   Provider.of<CartModel>(context,
+                          //                           listen: false)
+                          //                       .clearOngoingDelivery();
+                          //                   Navigator.push(
+                          //                       context,
+                          //                       MaterialPageRoute(
+                          //                         builder: (context) =>
+                          //                             TransaksiBerhasil(),
+                          //                       ));
+                          //                 },
+                          //                 child: Text(
+                          //                   "Pesanan Diterima",
+                          //                   style: TextStyle(
+                          //                     color: Colors
+                          //                         .white, // Set text color to white
+                          //                   ),
+                          //                 ),
+                          //                 style: ElevatedButton.styleFrom(
+                          //                   primary: Colors.blue,
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     );
