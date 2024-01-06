@@ -72,12 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        //color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
           child: GNav(
-            // backgroundColor: Colors.black,
-            //color: Colors.black,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.blue.shade800,
             gap: 8,

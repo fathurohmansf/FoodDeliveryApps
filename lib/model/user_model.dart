@@ -7,8 +7,13 @@ class UserModel {
   String? lokasi;
   String? profileImageUrl; // Add this property
 
-  UserModel(
-      {this.uid, this.email, this.username, this.lokasi, this.profileImageUrl});
+  UserModel({
+    this.uid,
+    this.email,
+    this.username,
+    this.lokasi,
+    this.profileImageUrl,
+  });
 
   // data dari server
   factory UserModel.fromMap(map) {
@@ -29,6 +34,18 @@ class UserModel {
       'lokasi': lokasi,
       'profileImageUrl': profileImageUrl, // Include profileImageUrl
     };
+  }
+
+  // Untuk update server Lokasi Customer
+  Future<void> updateAddress(String newAddress) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+
+    try {
+      await users.doc(uid).update({'address': newAddress});
+    } catch (e) {
+      print("Error updating address: $e");
+    }
   }
 
   // Dapatkan data pengguna dari Firestore berdasarkan UID

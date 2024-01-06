@@ -49,7 +49,7 @@ class DeliveryPage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const MyHomePage()),
                   );
                 },
-                child: Text('Kembali ke Menu HomePage'))
+                child: Text('Cek Status Pesanan'))
           ],
         ),
       ),

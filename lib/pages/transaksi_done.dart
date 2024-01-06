@@ -29,27 +29,6 @@ class TransaksiBerhasil extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
-            Consumer<CartModel>(
-              builder: (context, value, child) {
-                return Column(
-                  children: value.cartItems.map<Widget>((item) {
-                    return ListTile(
-                      title: Text(
-                        item[0],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'Rp. ${item[1]} x ${item[3]}', //  x ${item[3]}
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

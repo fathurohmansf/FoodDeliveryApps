@@ -151,6 +151,7 @@ class _CartPageState extends State<CartPage> {
                                 title: Text("Konfirmasi Pesanan"),
                                 content: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     FutureBuilder<UserModel?>(
                                       future: _userFuture,
@@ -178,25 +179,23 @@ class _CartPageState extends State<CartPage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                    'Atas Nama: ${snapshot.data!.username ?? "N/A"}',
+                                                    'Nama: ${snapshot.data!.username ?? "N/A"}',
                                                     style: SafeGoogleFont(
                                                       'Roboto',
-                                                      fontSize: 30,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w700,
-                                                      color: Colors.black,
                                                     )
                                                     // TextStyle(fontSize: 18),
                                                     ),
                                                 SizedBox(height: 12),
                                                 Text(
-                                                    'Akan di kirimkan ke Lokasi: ${snapshot.data!.lokasi ?? "N/A"}',
+                                                    'Tujuan: ${snapshot.data!.lokasi ?? "N/A"}',
                                                     style: SafeGoogleFont(
                                                       'Roboto',
-                                                      fontSize: 20,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w700,
-                                                      color: Colors.black,
                                                     )),
                                                 SizedBox(height: 26),
                                               ],
@@ -242,7 +241,7 @@ class _CartPageState extends State<CartPage> {
                                 ],
                               );
                             },
-                          );
+                          ); //sini
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.green,
