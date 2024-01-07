@@ -1,17 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_apps/model/user_model.dart';
-import 'package:food_delivery_apps/pages/home_page.dart';
 import 'package:food_delivery_apps/pages/order_confirmation.dart';
-import 'package:food_delivery_apps/pages/transaksi_done.dart';
 import 'package:food_delivery_apps/theme_manager/day_night.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:food_delivery_apps/pages/delivery_page.dart';
 import 'package:food_delivery_apps/model/cart_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ImageProviderModel extends ChangeNotifier {
   XFile? _image;

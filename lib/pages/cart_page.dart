@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:food_delivery_apps/pages/transaksi_done.dart';
 import 'package:food_delivery_apps/pages/delivery_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_delivery_apps/model/user_model.dart';
