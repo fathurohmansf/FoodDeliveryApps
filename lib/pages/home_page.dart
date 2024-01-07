@@ -68,7 +68,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 FutureBuilder<UserModel?>(
                   future: UserModel.getUserFromFirestore(widget.uid),
-                  //future: _userFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();

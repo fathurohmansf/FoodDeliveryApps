@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_apps/model/cart_model.dart';
-import 'package:food_delivery_apps/pages/transaksi_done.dart';
+import 'package:food_delivery_apps/pages/transaksi_success.dart';
 import 'package:provider/provider.dart';
 
 class OrderConfirmation extends StatelessWidget {
@@ -86,7 +86,7 @@ class OrderConfirmation extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TransaksiBerhasil(),
+        builder: (context) => TransactionSuccess(),
       ),
     );
     // Misalnya, tampilkan pesan konfirmasi

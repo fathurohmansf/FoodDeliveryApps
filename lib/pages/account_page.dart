@@ -70,7 +70,6 @@ class _AccountPageState extends State<AccountPage> {
       await user?.updateAddress(result);
 
       // Perbarui tampilan setelah alamat diubah
-      //setState(() {});
       setState(() {
         _userFuture = UserModel.getUserFromFirestore(widget.uid);
       });

@@ -3,8 +3,8 @@ import 'package:food_delivery_apps/main.dart';
 import 'package:food_delivery_apps/model/cart_model.dart';
 import 'package:provider/provider.dart';
 
-class TransaksiBerhasil extends StatelessWidget {
-  const TransaksiBerhasil({super.key});
+class TransactionSuccess extends StatelessWidget {
+  const TransactionSuccess({super.key});
 
   @override
   Widget build(BuildContext context) {
