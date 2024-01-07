@@ -73,10 +73,10 @@ class CartModel extends ChangeNotifier {
   // list of cart items with quantity
   final List<List<dynamic>> _cartItems = [];
   //final List<List<String>> _orderHistory = [];
-  final List<List<dynamic>> _orderHistory = [];
+  final List<List<dynamic>> _orderDelivery = [];
 
   get cartItems => _cartItems;
-  List<List<dynamic>> get orderHistory => _orderHistory;
+  List<List<dynamic>> get orderDelivery => _orderDelivery;
   get shopItems => _shopItems;
 
   // add item to cart
@@ -127,6 +127,24 @@ class CartModel extends ChangeNotifier {
     return totalPrice.toStringAsFixed(3);
   }
 
+  // calculate total per item price
+  String calculateTotalitem(int index) {
+    final item = orderDelivery[index];
+    final qty = int.tryParse(item[5].toString()) ?? 0;
+    final pricePerItem = double.tryParse(item[1].toString()) ?? 0.0;
+    final totalPerItem = qty * pricePerItem;
+    return totalPerItem.toStringAsFixed(3);
+  }
+
+  // calculate total price Ordering
+  String calculateTotalOrder() {
+    double totalPrice = 0;
+    for (int i = 0; i < _orderDelivery.length; i++) {
+      totalPrice += double.parse(_orderDelivery[i][1]) * _orderDelivery[i][5];
+    }
+    return totalPrice.toStringAsFixed(3);
+  }
+
   // Helper method to find the index of an item in the cart
   int _findItemIndex(String itemName) {
     for (int i = 0; i < _cartItems.length; i++) {
@@ -139,16 +157,15 @@ class CartModel extends ChangeNotifier {
 
 //OngoingDelivery
   void ongoingDelivery() {
-    _orderHistory.addAll(List.from(_cartItems));
-    print('Recorded Orders: $_orderHistory'); // Add this line for debugging
+    _orderDelivery.addAll(List.from(_cartItems));
+    print('Recorded Orders: $_orderDelivery'); // Add this line for debugging
     clearCart();
     notifyListeners();
   }
 
   // Untuk Clean di OngoingDelivery
   void clearOngoingDelivery() {
-    _orderHistory.clear();
-    //_cartItems.clear();
+    _orderDelivery.clear();
     notifyListeners();
   }
 }

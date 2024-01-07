@@ -154,7 +154,9 @@ class _CartPageState extends State<CartPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     FutureBuilder<UserModel?>(
-                                      future: _userFuture,
+                                      future: UserModel.getUserFromFirestore(
+                                          widget.uid),
+                                      //future: _userFuture,
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {

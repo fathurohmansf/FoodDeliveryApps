@@ -64,4 +64,19 @@ class UserModel {
       return null;
     }
   }
+
+  // New method to get user stream from Firestore
+  static Stream<UserModel?> getUserStreamFromFirestore(String uid) {
+    try {
+      final CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      return users.doc(uid).snapshots().map(
+            (snapshot) =>
+                snapshot.exists ? UserModel.fromMap(snapshot.data()) : null,
+          );
+    } catch (e) {
+      print("Error getting user stream: $e");
+      rethrow;
+    }
+  }
 }

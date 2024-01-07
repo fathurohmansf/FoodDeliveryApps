@@ -17,12 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<UserModel?> _userFuture;
+  late Stream<UserModel?> _userStream;
 
   @override
   void initState() {
     super.initState();
-    _userFuture = UserModel.getUserFromFirestore(widget.uid);
+    _userStream = UserModel.getUserStreamFromFirestore(widget.uid);
   }
 
   @override
@@ -67,7 +67,8 @@ class _HomePageState extends State<HomePage> {
                       'assets/design/images/iconly-bold-location.png'),
                 ),
                 FutureBuilder<UserModel?>(
-                  future: _userFuture,
+                  future: UserModel.getUserFromFirestore(widget.uid),
+                  //future: _userFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
@@ -82,24 +83,34 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 1),
-                            Text(
-                              snapshot.data!.lokasi ?? "N/A",
-                              style: SafeGoogleFont(
-                                'Roboto',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                height: 1.1725,
-                                //color: const Color(0xff0c0c0c),
+                      return StreamBuilder<UserModel?>(
+                        stream: _userStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.active) {
+                            UserModel? user = snapshot.data;
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 1),
+                                  Text(
+                                    user?.lokasi ?? "N/A",
+                                    style: SafeGoogleFont(
+                                      'Roboto',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.1725,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       );
                     }
                   },

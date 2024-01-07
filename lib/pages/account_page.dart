@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_apps/model/user_model.dart';
 import 'package:food_delivery_apps/pages/home_page.dart';
+import 'package:food_delivery_apps/pages/order_confirmation.dart';
 import 'package:food_delivery_apps/pages/transaksi_done.dart';
 import 'package:food_delivery_apps/theme_manager/day_night.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ import 'package:food_delivery_apps/pages/delivery_page.dart';
 import 'package:food_delivery_apps/model/cart_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageProviderModel extends ChangeNotifier {
   XFile? _image;
@@ -70,6 +70,7 @@ class _AccountPageState extends State<AccountPage> {
       await user?.updateAddress(result);
 
       // Perbarui tampilan setelah alamat diubah
+      //setState(() {});
       setState(() {
         _userFuture = UserModel.getUserFromFirestore(widget.uid);
       });
@@ -249,7 +250,7 @@ class _AccountPageState extends State<AccountPage> {
                               ),
                               Consumer<CartModel>(
                                 builder: (context, value, child) {
-                                  if (value.orderHistory.isEmpty) {
+                                  if (value.orderDelivery.isEmpty) {
                                     // If there is no order history data, render an empty Card
                                     return Card(
                                       margin: EdgeInsets.all(20),
@@ -309,33 +310,24 @@ class _AccountPageState extends State<AccountPage> {
                                                 ),
                                               ],
                                             ),
-                                            Column(
-                                              children: value.orderHistory
-                                                  .map<Widget>((item) {
-                                                return ListTile(
-                                                  title: Text(
-                                                    '${item[0]} x${item[5]}',
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                );
-                                              }).toList(),
+                                            Center(
+                                              child: Text(
+                                                'Jika pesanan sudah sampai,\nklik di bawah ini ',
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
                                             Center(
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  //untuk hapus ongoingdelivery yg ada di list
-                                                  Provider.of<CartModel>(
-                                                          context,
-                                                          listen: false)
-                                                      .clearOngoingDelivery();
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          TransaksiBerhasil(),
+                                                          OrderConfirmation(),
                                                     ),
                                                   );
                                                 },
